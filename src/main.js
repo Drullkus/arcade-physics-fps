@@ -13,15 +13,15 @@ class TestScene extends Phaser.Scene {
     }
 
     create() {
-        this.textObj = this.add.text(50, 0, `FPS: ${this.fps}`);
+        this.bouncingText = this.add.text(85, 0, `Physics UPS: ${this.fps}`);
+        this.physics.world.enable(this.bouncingText);
+        this.bouncingText.body.setCollideWorldBounds(true, 1, 1);
 
-        this.physics.world.enable(this.textObj);
-
-        this.textObj.body.setCollideWorldBounds(true, 1, 1);
+        this.fpsCounter = this.add.text(0, 5);
     }
 
     update(_, deltaMillis) {
-        if (this.tracers.length > 100) {
+        if (this.tracers.length > 80) {
             const left = this.tracers.shift();
             left.destroy();
         }
@@ -32,11 +32,13 @@ class TestScene extends Phaser.Scene {
             o.x += 280 * deltaSeconds;
         });
 
-        const newCircle = this.add.circle(this.textObj.x + this.textObj.width + 10, this.textObj.y + this.textObj.height * 0.5, 10, HSVtoRGB(this.circlesCreated / 8.5));
+        const newCircle = this.add.circle(this.bouncingText.x + this.bouncingText.width + 10, this.bouncingText.y + this.bouncingText.height * 0.5, 10, HSVtoRGB(this.circlesCreated / 8.5));
         this.children.sendToBack(newCircle);
 
         this.tracers.push(newCircle);
         this.circlesCreated++;
+
+        this.fpsCounter.text = `game.loop.actualFps = ${this.game.loop.actualFps}`;
     }
 }
 
@@ -64,7 +66,10 @@ function HSVtoRGB(h) {
         type: Phaser.WEBGL,
         width: 640,
         height: 480,
-            physics: {
+        fps: {
+            target: fps // Seems to have no effect, renderer still targets 60
+        },
+        physics: {
             default: 'arcade',
             arcade: {
                 fps: fps,
