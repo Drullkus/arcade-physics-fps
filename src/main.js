@@ -59,7 +59,7 @@ function HSVtoRGB(h) {
     return (Math.round(red * 255) << 16) | (Math.round(green * 255) << 8) | (Math.round(blue * 255));
 }
 
-[30, 60].map((fps) => {
+[30, 60, 90, 120].map((fps) => {
     new Phaser.Game({
         type: Phaser.WEBGL,
         width: 640,
