@@ -32,7 +32,10 @@ class TestScene extends Phaser.Scene {
             o.x += 280 * deltaSeconds;
         });
 
-        this.tracers.push(this.add.circle(this.textObj.x + this.textObj.width + 10, this.textObj.y + this.textObj.height * 0.5, 10, HSVtoRGB(this.circlesCreated / 8.5)));
+        const newCircle = this.add.circle(this.textObj.x + this.textObj.width + 10, this.textObj.y + this.textObj.height * 0.5, 10, HSVtoRGB(this.circlesCreated / 8.5));
+        this.children.sendToBack(newCircle);
+
+        this.tracers.push(newCircle);
         this.circlesCreated++;
     }
 }
