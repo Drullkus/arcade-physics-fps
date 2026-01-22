@@ -9,7 +9,7 @@ class TestScene extends Phaser.Scene {
 
         this.tracers = [];
 
-        this.circlesCreated = 0;
+        this.circlesCreated = 0.0;
     }
 
     create() {
@@ -21,7 +21,7 @@ class TestScene extends Phaser.Scene {
     }
 
     update(_, deltaMillis) {
-        if (this.tracers.length > 200) {
+        if (this.tracers.length > 100) {
             const left = this.tracers.shift();
             left.destroy();
         }
@@ -29,10 +29,10 @@ class TestScene extends Phaser.Scene {
         const deltaSeconds = deltaMillis * 0.001;
 
         this.tracers.forEach((o) => {
-            o.x += 140 * deltaSeconds;
+            o.x += 280 * deltaSeconds;
         });
 
-        this.tracers.push(this.add.circle(this.textObj.x + this.textObj.width + 10, this.textObj.y + this.textObj.height * 0.5, 10, HSVtoRGB(this.circlesCreated / 360)));
+        this.tracers.push(this.add.circle(this.textObj.x + this.textObj.width + 10, this.textObj.y + this.textObj.height * 0.5, 10, HSVtoRGB(this.circlesCreated / 8.5)));
         this.circlesCreated++;
     }
 }
