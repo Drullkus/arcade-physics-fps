@@ -1,5 +1,7 @@
 // Sourcing from https://stackblitz.com/edit/phaser3-typescript
 // to verify status of https://github.com/phaserjs/phaser/issues/4529
+//
+// Matter JS alteration of Arcade-based test outlined above
 
 class TestScene extends Phaser.Scene {
     constructor(fps) {
@@ -14,8 +16,13 @@ class TestScene extends Phaser.Scene {
 
     create() {
         this.bouncingText = this.add.text(85, 0, `Physics UPS: ${this.fps}`);
-        this.physics.world.enable(this.bouncingText);
-        this.bouncingText.body.setCollideWorldBounds(true, 1, 1);
+        this.bouncingTextObj = this.matter.add.gameObject(this.bouncingText, {
+            inertia: Infinity
+        });
+        this.bouncingTextObj.setFrictionAir(0.0).setBounce(1.025);
+        // this.matter.world.enable(this.bouncingText);
+        // this.bouncingText.body.setCollideWorldBounds(true, 1, 1);
+        this.matter.world.setBounds(0, 0, 640, 480);
 
         this.fpsCounter = this.add.text(0, 5);
     }
@@ -70,12 +77,12 @@ function HSVtoRGB(h) {
             target: fps // Seems to have no effect, renderer still targets 60
         },
         physics: {
-            default: 'arcade',
-            arcade: {
+            default: 'matter',
+            matter: {
                 fps: fps,
                 gravity: {
                     x: 0,
-                    y: 500
+                    y: 5
                 }
             }
         },
